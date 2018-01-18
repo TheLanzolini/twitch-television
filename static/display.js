@@ -2,6 +2,11 @@ const socket = io();
 let player = null;
 let overlayActive = false;
 let $overlay;
+const streams = {};
+
+streams[0] = ['overwatchleague', 'nickmercs', 'gotaga', 'highdistortion', 'drlupo'];
+streams[1] = ['arquel', 'duendepablo', 'realkraftyy', 'kobe0802', 'pago3'];
+streams[2] = ['overwatchleague', 'incendiobeauty', 'nge', 'zylria', 'oatsngoats'];
 
 const matrix = {
   currentX: 0,
@@ -13,11 +18,14 @@ function move(x, y) {
   matrix[y].channels[x].classList.add('active');
   matrix.currentX = x;
   matrix.currentY = y;
-  console.log(matrix);
 }
 
 function togglePlay() {
 
+}
+
+function setVolume(float) {
+  player.setVolume(float);
 }
 
 function navUp() {
@@ -37,14 +45,35 @@ function navDown() {
 }
 
 function navLeft() {
-
+  if (matrix.currentX !== 0) {
+    const targetX = matrix.currentX - 1;
+    const targetY = matrix.currentY;
+    move(targetX, targetY);
+  }
 }
 
 function navRight() {
-
+  const currentChannel = matrix[matrix.currentY].channels[matrix.currentX];
+  const currentChannels = matrix[matrix.currentY].channels;
+  const currentChannelsLength = matrix[matrix.currentY].channels.length;
+  let go = true;
+  currentChannels.forEach(function(c, index) {
+    if (c == currentChannel && index == currentChannelsLength - 1) {
+      go = false;
+    }
+  });
+  if (go) {
+    const targetX = matrix.currentX + 1;
+    const targetY = matrix.currentY;
+    move(targetX, targetY);
+  }
 }
 
-
+function enter() {
+  const targetStream = streams[matrix.currentY][matrix.currentX];
+  player.setChannel(targetStream);
+  toggleOverlay();
+}
 
 function toggleOverlay() {
   $overlay.classList[overlayActive ? 'remove' : 'add']('active');
@@ -63,18 +92,69 @@ document.addEventListener('keydown', function(e) {
     38: navUp,
     39: navRight,
     40: navDown,
-    71: toggleOverlay
+    71: toggleOverlay,
+    13: enter,
+    48: function() { setVolume(1) },
+    49: function() { setVolume(0) },
+    50: function() { setVolume(0.2) },
+    51: function() { setVolume(0.3) },
+    52: function() { setVolume(0.4) },
+    53: function() { setVolume(0.5) },
+    54: function() { setVolume(0.6) },
+    55: function() { setVolume(0.7) },
+    56: function() { setVolume(0.8) },
+    57: function() { setVolume(0.9) }
   }
 
-  if (events[e.keyCode] !== undefined) {
+  if (events[e.keyCode] !== undefined && (overlayActive || e.keyCode === 71 || (e.keyCode >= 48 || e.keyCode <= 57) )) {
     events[e.keyCode]();
   }
 
 });
 
 window.addEventListener('DOMContentLoaded', function() {
-
   $overlay = document.getElementById('overlay');
+  const $overlayBody = $overlay.querySelector('.overlay-body');
+
+
+
+  Object.entries(streams).forEach(function(entry) {
+    console.log(entry)
+    const $overlaySection = document.createElement('div');
+    $overlaySection.classList.add('overlay-section');
+
+    const streamTitleInt = parseInt(entry[0]);
+    const channs = entry[1];
+    const title = streamTitleInt === 0 ? 'Subscriptions' : streamTitleInt === 1 ? 'Followed' : 'Featured';
+    const $title = document.createElement('div');
+    $title.textContent = title;
+    $title.classList.add('title');
+
+    const $channels = document.createElement('div');
+    $channels.classList.add('channels');
+
+    channs.forEach(function(chann) {
+      const $channel = document.createElement('div');
+      $channel.classList.add('channel', chann);
+      const $thumbnail = document.createElement('div');
+      $thumbnail.classList.add('thumbnail');
+      const $name = document.createElement('div');
+      $name.classList.add('name');
+      $name.textContent = chann;
+      $channel.appendChild($thumbnail);
+      $channel.appendChild($name);
+      $channels.appendChild($channel);
+    });
+
+    $overlaySection.appendChild($title);
+    $overlaySection.appendChild($channels);
+
+    $overlayBody.appendChild($overlaySection);
+
+  });
+
+  $overlay.appendChild($overlayBody);
+
   const sections = $overlay.querySelectorAll('.overlay-section');
   sections.forEach(function(section, index) {
     const channels = section.querySelectorAll('.channel');
@@ -97,7 +177,8 @@ window.addEventListener('DOMContentLoaded', function() {
     width: width,
     height: height,
     channel: 'lanzo',
-    chat: false
+    layout: 'video',
+    muted: false
   });
 
   embed.addEventListener(Twitch.Embed.VIDEO_READY, function(){
