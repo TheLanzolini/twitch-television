@@ -119,7 +119,6 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
   Object.entries(streams).forEach(function(entry) {
-    console.log(entry)
     const $overlaySection = document.createElement('div');
     $overlaySection.classList.add('overlay-section');
 
@@ -169,6 +168,13 @@ window.addEventListener('DOMContentLoaded', function() {
   socket.on('init', function(res) {
     console.log(res);
   });
+
+  socket.on('navLeft', navLeft);
+  socket.on('navUp', navUp);
+  socket.on('navRight', navRight);
+  socket.on('navDown', navDown);
+  socket.on('toggleOverlay', toggleOverlay);
+  socket.on('enter', enter);
 
   const width = window.innerWidth;
   const height = window.innerHeight;

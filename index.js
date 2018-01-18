@@ -33,5 +33,46 @@ app.get('/', function(req, res) {
 // SOCKET
 io.on('connection', function(socket) {
   console.log('new connection!');
-  socket.emit('init', 'you are connected!!!!');
+  // socket.emit('init', 'you are connected!!!!');
+
+  setTimeout(function(){
+    socket.emit('toggleOverlay');
+  }, 8000);
+
+  setTimeout(function(){
+    socket.emit('navRight');
+  }, 10000);
+  setTimeout(function(){
+    socket.emit('navRight');
+  }, 11000);
+  setTimeout(function(){
+    socket.emit('navDown');
+  }, 12000);
+  setTimeout(function(){
+    socket.emit('navLeft');
+  }, 13000);
+  setTimeout(function(){
+    socket.emit('navUp');
+  }, 14000);
+  setTimeout(function(){
+    socket.emit('enter');
+  }, 15000);
+
+  setTimeout(function(){
+    socket.emit('toggleOverlay');
+  }, 15500);
+
+  setTimeout(function(){
+    socket.emit('navRight');
+  }, 16000);
+  setTimeout(function(){
+    socket.emit('navRight');
+  }, 17000);
+  setTimeout(function(){
+    socket.emit('navRight');
+  }, 18000);
+  setTimeout(function(){
+    socket.emit('enter');
+  }, 19000);
+
 });
