@@ -1,0 +1,12 @@
+{
+  "name": "twitch-television",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/TheLanzolini/twitch-television.git",
+  "author": "TheLanzolini <thelanzolini@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  }
+}
