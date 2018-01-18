@@ -1,0 +1,45 @@
+#overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.0;
+  color: white;
+  padding: 26px;
+  transition: opacity 0.3s ease;
+}
+
+#overlay.active {
+  opacity: 1.0;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.overlay-section {
+  margin-bottom: 32px;
+}
+
+.channels {
+  display: flex;
+}
+
+.channel {
+  margin-right: 10px;
+}
+
+.channel.active .thumbnail {
+  background-color: purple;
+}
+
+.channel.active .name {
+  color: purple;
+}
+
+.title {
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.thumbnail {
+  width: 160px;
+  height: 90px;
+  background-color: gray;
+}

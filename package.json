@@ -5,8 +5,16 @@
   "repository": "https://github.com/TheLanzolini/twitch-television.git",
   "author": "TheLanzolini <thelanzolini@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
   "dependencies": {
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
     "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.11"
   }
 }

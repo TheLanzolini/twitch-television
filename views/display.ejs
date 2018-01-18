@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>Display | Twitch Television</title>
+    <script src="/socket.io.js"></script>
+    <script src="/display.js"></script>
+    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+    <link rel="stylesheet" href="/display.css" />
+    <link rel="stylesheet" href="/global.css" />
+  </head>
+  <body>
+    <div id="overlay">
+      <div class="overlay-body">
+        <div class="overlay-section">
+          <div class="title">Subscriptions</div>
+          <div class="channels">
+            <% for(var i=0;i < 5; i++) { %>
+              <div class="channel">
+                <div class="thumbnail"></div>
+                <div class="name">Lanzo</div>
+              </div>
+            <% } %>
+          </div>
+        </div>
+        <div class="overlay-section">
+          <div class="title">Followed</div>
+          <div class="channels">
+            <% for(var i=0;i < 5; i++) { %>
+              <div class="channel">
+                <div class="thumbnail"></div>
+                <div class="name">Lanzo</div>
+              </div>
+            <% } %>
+          </div>
+        </div>
+        <div class="overlay-section">
+          <div class="title">Featured</div>
+          <div class="channels">
+            <% for(var i=0;i < 5; i++) { %>
+              <div class="channel">
+                <div class="thumbnail"></div>
+                <div class="name">Lanzo</div>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="player"></div>
+  </body>
+</html>
