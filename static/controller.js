@@ -36,6 +36,16 @@ window.addEventListener('DOMContentLoaded', function() {
   });
 
   $volume.addEventListener('input', function(e) {
+    if (e.target.value == 0) {
+      $controller.querySelector('svg').classList.remove('fa-volume-up');
+      $controller.querySelector('svg').classList.add('fa-volume-off');
+    } else if(e.target.value < 49){
+      $controller.querySelector('svg').classList.remove('fa-volume-off', 'fa-volume-up');
+      $controller.querySelector('svg').classList.add('fa-volume-down');
+    } else {
+      $controller.querySelector('svg').classList.remove('fa-volume-off');
+      $controller.querySelector('svg').classList.add('fa-volume-up');
+    }
     socket.emit('volume', (e.target.value * 0.01));
   });
 
