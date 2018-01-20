@@ -9,9 +9,11 @@
 `yarn dev`
 
 ### TODO
-- [ ] Join ROOM with controller, shows controls on socket join
+- [ ] Test the code controller overlay for edge cases
+- [ ] Playback State through socket so controls can pause and play and start volume in correct place
 - [ ] Hitting Enter on Same stream shouldnt re-set the channel
 - [ ] Add Auth
+- [ ] roomcode and socketcode in LS??? wat did i do dat?
 
 
 

@@ -4,13 +4,6 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const path = require('path');
 
-// SOCKET IO connection between 2 views
-
-// VIEW 1 - Controller (phone)
-
-// VIEW 2 - Display (TV/Monitor)
-
-// App Routing
 const ROUTES = [
   'display',
   'controller'
@@ -30,30 +23,7 @@ app.get('/', function(req, res) {
   res.render(path.join(__dirname, 'views', 'index'), {});
 });
 
-
-
-// SOCKET
-// io.on('connection', function(socket) {
-//   console.log('new connection!');
-//   // socket.emit('init', 'you are connected!!!!');
-//
-//   // setTimeout(function(){
-//   socket.on('toggleOverlay', function() {
-//     console.log('received toggle overlay');
-//     socket.emit('toggleOverlay');
-//   });
-//   // }, 8000);
-//
-//   setTimeout(function() {
-//     socket.emit('toggleOverlay');
-//   }, 8000)
-//
-// });
-
 const ROOMS = {};
-ROOMS['/abc'] = io.of('/abc');
-
-// const abcSocket = io.of('/abc');
 
 const relays = [
   'navLeft',
@@ -62,7 +32,8 @@ const relays = [
   'navDown',
   'toggleOverlay',
   'enter',
-  'volume'
+  'volume',
+  'controllerConnected'
 ];
 
 function initRoom(roomInstance) {

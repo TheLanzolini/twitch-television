@@ -1,6 +1,9 @@
 let socket;
 
-// const socket = io('/abc');
+const roomCode = localStorage.getItem('roomCode');
+if (roomCode) {
+  socket = io(`/${roomCode}`);
+}
 
 window.addEventListener('DOMContentLoaded', function() {
   const $controller = document.getElementById('controller');
@@ -33,6 +36,8 @@ window.addEventListener('DOMContentLoaded', function() {
     $submit.textContent = 'SUBMIT';
     $submit.addEventListener('click', function() {
       socket = io(`/${$room.value}`);
+      localStorage.setItem('roomCode', room.value);
+      socket.emit('controllerConnected');
       document.body.removeChild($overlay);
     });
 

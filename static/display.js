@@ -3,6 +3,7 @@ let socket;
 let player = null;
 let overlayActive = false;
 let $overlay;
+let $controllerOverlay;
 const streams = {};
 
 streams[0] = ['overwatchleague', 'nickmercs', 'gotaga', 'highdistortion', 'drlupo'];
@@ -114,6 +115,23 @@ document.addEventListener('keydown', function(e) {
 
 });
 
+function showControllerOverlay(code) {
+  if ($controllerOverlay) {
+    return;
+  }
+  $controllerOverlay = document.querySelector('.controller-overlay');
+  $controllerOverlay.textContent = `go to /controller and input: ${code}`;
+  $controllerOverlay.classList.add('active');
+}
+
+function hideControllerOverlay() {
+  if (!$controllerOverlay) {
+    return;
+  }
+  $controllerOverlay.classList.remove('active');
+  $controllerOverlay = null;
+}
+
 function attachSocketEvents() {
   socket.on('init', function(res) {
     console.log(res);
@@ -126,6 +144,7 @@ function attachSocketEvents() {
   socket.on('toggleOverlay', toggleOverlay);
   socket.on('enter', enter);
   socket.on('volume', setVolume);
+  socket.on('controllerConnected', hideControllerOverlay);
 }
 
 function embedPlayer() {
@@ -146,6 +165,8 @@ function embedPlayer() {
     player.setMuted(false);
   });
 }
+
+
 
 window.addEventListener('DOMContentLoaded', function() {
   $overlay = document.getElementById('overlay');
@@ -211,6 +232,7 @@ window.addEventListener('DOMContentLoaded', function() {
       return res.json();
     }).then(function(res) {
       // console.log(res);
+      showControllerOverlay(res.roomCode);
       localStorage.setItem('socketRoom', res.roomCode);
       initRoom(res.roomCode);
     });
