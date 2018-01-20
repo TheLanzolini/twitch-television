@@ -1,0 +1,85 @@
+html {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+#controller {
+
+}
+
+button {
+  font-family: 'Roboto Condensed', sans-serif;
+  background-color: #6441A4;
+  border: none;
+  color: white;
+  outline: none;
+  display: block;
+}
+
+button:active {
+  background-color: #823aba;
+}
+
+.guide-control {
+  width: 100%;
+  font-size: 40px;
+  padding: 12px 0;
+  margin: 4px 0;
+}
+
+.nav {
+  display: flex;
+  height: 200px;
+}
+
+.nav-section {
+  flex: 1;
+}
+
+.nav-section.middle {
+  display: flex;
+  flex-direction: column;
+  margin: 0 4px;
+}
+
+.nav-enter {
+  margin: 4px 0;
+}
+
+.nav-section button {
+  width: 100%;
+  height: 100%;
+}
+
+.volume-input {
+  width: calc(100% - 8px);
+}
+
+
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 18px 0;
+  width: calc(100% - 8px);
+  display: block;
+  margin: 24px auto;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  height: 4px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: #ECEFF1;
+  border: 0.2px solid #CFD8DC;
+}
+input[type=range]::-webkit-slider-thumb {
+  height: 24px;
+  width: 24px;
+  background: #6441A4;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -10px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #367ebd;
+}

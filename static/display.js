@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io('/abc');
 let player = null;
 let overlayActive = false;
 let $overlay;
@@ -76,6 +76,7 @@ function enter() {
 }
 
 function toggleOverlay() {
+  console.log('display received toggle overlay');
   $overlay.classList[overlayActive ? 'remove' : 'add']('active');
   overlayActive = !overlayActive;
 }
@@ -175,6 +176,7 @@ window.addEventListener('DOMContentLoaded', function() {
   socket.on('navDown', navDown);
   socket.on('toggleOverlay', toggleOverlay);
   socket.on('enter', enter);
+  socket.on('volume', setVolume);
 
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -190,6 +192,7 @@ window.addEventListener('DOMContentLoaded', function() {
   embed.addEventListener(Twitch.Embed.VIDEO_READY, function(){
     playerReady = true;
     player = embed.player;
+    player.setMuted(false);
     // console.log(player)
   });
 });

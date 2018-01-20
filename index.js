@@ -31,48 +31,41 @@ app.get('/', function(req, res) {
 });
 
 // SOCKET
-io.on('connection', function(socket) {
-  console.log('new connection!');
-  // socket.emit('init', 'you are connected!!!!');
+// io.on('connection', function(socket) {
+//   console.log('new connection!');
+//   // socket.emit('init', 'you are connected!!!!');
+//
+//   // setTimeout(function(){
+//   socket.on('toggleOverlay', function() {
+//     console.log('received toggle overlay');
+//     socket.emit('toggleOverlay');
+//   });
+//   // }, 8000);
+//
+//   setTimeout(function() {
+//     socket.emit('toggleOverlay');
+//   }, 8000)
+//
+// });
 
-  setTimeout(function(){
-    socket.emit('toggleOverlay');
-  }, 8000);
+const abcSocket = io.of('/abc');
 
-  setTimeout(function(){
-    socket.emit('navRight');
-  }, 10000);
-  setTimeout(function(){
-    socket.emit('navRight');
-  }, 11000);
-  setTimeout(function(){
-    socket.emit('navDown');
-  }, 12000);
-  setTimeout(function(){
-    socket.emit('navLeft');
-  }, 13000);
-  setTimeout(function(){
-    socket.emit('navUp');
-  }, 14000);
-  setTimeout(function(){
-    socket.emit('enter');
-  }, 15000);
+const relays = [
+  'navLeft',
+  'navUp',
+  'navRight',
+  'navDown',
+  'toggleOverlay',
+  'enter',
+  'volume'
+];
 
-  setTimeout(function(){
-    socket.emit('toggleOverlay');
-  }, 15500);
+abcSocket.on('connection', function(socket) {
 
-  setTimeout(function(){
-    socket.emit('navRight');
-  }, 16000);
-  setTimeout(function(){
-    socket.emit('navRight');
-  }, 17000);
-  setTimeout(function(){
-    socket.emit('navRight');
-  }, 18000);
-  setTimeout(function(){
-    socket.emit('enter');
-  }, 19000);
+  relays.forEach(function(relay) {
+    socket.on(relay, function(data) {
+      abcSocket.emit(relay, data);
+    });
+  });
 
 });
