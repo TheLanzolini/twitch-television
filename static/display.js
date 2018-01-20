@@ -1,4 +1,5 @@
-const socket = io('/abc');
+// const socket = io('/abc');
+let socket;
 let player = null;
 let overlayActive = false;
 let $overlay;
@@ -113,11 +114,42 @@ document.addEventListener('keydown', function(e) {
 
 });
 
+function attachSocketEvents() {
+  socket.on('init', function(res) {
+    console.log(res);
+  });
+
+  socket.on('navLeft', navLeft);
+  socket.on('navUp', navUp);
+  socket.on('navRight', navRight);
+  socket.on('navDown', navDown);
+  socket.on('toggleOverlay', toggleOverlay);
+  socket.on('enter', enter);
+  socket.on('volume', setVolume);
+}
+
+function embedPlayer() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  const embed = new Twitch.Embed('player', {
+    width: width,
+    height: height,
+    channel: 'lanzo',
+    layout: 'video',
+    muted: false
+  });
+
+  embed.addEventListener(Twitch.Embed.VIDEO_READY, function(){
+    playerReady = true;
+    player = embed.player;
+    player.setMuted(false);
+  });
+}
+
 window.addEventListener('DOMContentLoaded', function() {
   $overlay = document.getElementById('overlay');
   const $overlayBody = $overlay.querySelector('.overlay-body');
-
-
 
   Object.entries(streams).forEach(function(entry) {
     const $overlaySection = document.createElement('div');
@@ -163,36 +195,28 @@ window.addEventListener('DOMContentLoaded', function() {
       channels: channels
     }
   });
-  // console.log(matrix);
   move(0, 0);
 
-  socket.on('init', function(res) {
-    console.log(res);
-  });
+  const socketRoom = localStorage.getItem('socketRoom');
 
-  socket.on('navLeft', navLeft);
-  socket.on('navUp', navUp);
-  socket.on('navRight', navRight);
-  socket.on('navDown', navDown);
-  socket.on('toggleOverlay', toggleOverlay);
-  socket.on('enter', enter);
-  socket.on('volume', setVolume);
+  function initRoom(roomCode) {
+    socket = io(`/${roomCode}`);
+    attachSocketEvents();
+    embedPlayer();
+  }
 
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  if (!socketRoom) {
+    // GET to NODE server request a room
+    fetch('/request-room').then(function(res) {
+      return res.json();
+    }).then(function(res) {
+      // console.log(res);
+      localStorage.setItem('socketRoom', res.roomCode);
+      initRoom(res.roomCode);
+    });
+  } else {
+    initRoom(socketRoom);
+  }
 
-  const embed = new Twitch.Embed('player', {
-    width: width,
-    height: height,
-    channel: 'lanzo',
-    layout: 'video',
-    muted: false
-  });
 
-  embed.addEventListener(Twitch.Embed.VIDEO_READY, function(){
-    playerReady = true;
-    player = embed.player;
-    player.setMuted(false);
-    // console.log(player)
-  });
 });

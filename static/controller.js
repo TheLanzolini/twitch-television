@@ -1,4 +1,6 @@
-const socket = io('/abc');
+let socket;
+
+// const socket = io('/abc');
 
 window.addEventListener('DOMContentLoaded', function() {
   const $controller = document.getElementById('controller');
@@ -10,6 +12,38 @@ window.addEventListener('DOMContentLoaded', function() {
   const $navDown = $controller.querySelector('.nav-down');
   const $navEnter = $controller.querySelector('.nav-enter');
   const $volume = $controller.querySelector('.volume-input');
+
+  if (!socket) {
+    const $overlay = document.createElement('div');
+    $overlay.classList.add('overlay');
+
+    const $inputContainer = document.createElement('div');
+    $inputContainer.classList.add('input-container');
+
+    const $label = document.createElement('div');
+    $label.classList.add('label');
+    $label.textContent = 'CODE';
+
+    const $room = document.createElement('input');
+    $room.setAttribute('type', 'text');
+    $room.id = 'room';
+
+    const $submit = document.createElement('button');
+    $submit.classList.add('submit');
+    $submit.textContent = 'SUBMIT';
+    $submit.addEventListener('click', function() {
+      socket = io(`/${$room.value}`);
+      document.body.removeChild($overlay);
+    });
+
+    $inputContainer.appendChild($label);
+    $inputContainer.appendChild($room);
+    $inputContainer.appendChild($submit);
+
+    $overlay.appendChild($inputContainer);
+
+    document.body.appendChild($overlay);
+  }
 
   $guideControl.addEventListener('click', function() {
     socket.emit('toggleOverlay');
