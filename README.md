@@ -9,6 +9,7 @@
 `yarn dev`
 
 ### TODO
+- [ ] send confirmation events from display to controller (and vice versa)
 - [ ] Test the code controller overlay for edge cases
 - [ ] Playback State through socket so controls can pause and play and start volume in correct place
 - [ ] Hitting Enter on Same stream shouldnt re-set the channel
