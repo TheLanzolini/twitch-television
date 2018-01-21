@@ -18,6 +18,7 @@
 
 
 
+
 1. The Display Page Renders in
   a. Checks its own LocalStorage (Have it || Don't have it)
 2. Request a ROOM if it doesn't have one, joins the room if it does
